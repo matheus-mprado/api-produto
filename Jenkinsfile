@@ -2,9 +2,10 @@ pipeline {
     agent any
     // tools {dockerTool  "myDocker" } 
     environment {
-        p = sh "echo $PATH"
-        PATH = p + ":/usr/local/bin/docker"
+        p = sh(script: 'echo $PATH', returnStdout: true).trim()
+        PATH = "${p}:/usr/local/bin/docker"
     }
+
     stages {
         stage ('Build Image') {
             steps {
