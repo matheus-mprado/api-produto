@@ -5,9 +5,9 @@ pipeline {
         stage ('Initialize') {
             steps {
                 script {
-                    def dockerHome = tool 'myDocker'
+                     // Configuração do ambiente Docker
+                    def dockerHome = tool name: 'myDocker', type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
-                    env.PATH = "/usr/local/bin"
                 }
             }
         }
