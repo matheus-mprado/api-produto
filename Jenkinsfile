@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    // tools {dockerTool  "myDocker" } 
+    tools {dockerTool  "myDocker" } 
     environment {
         p = sh(script: 'echo $PATH', returnStdout: true).trim()
         PATH = "${p}:/usr/local/bin/docker"
