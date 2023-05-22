@@ -1,30 +1,28 @@
 pipeline {
     agent any
-    // tools {dockerTool  "myDocker" } 
+
+    environment {
+        DOCKER_HOME = tool 'myDocker'
+        PATH = "${DOCKER_HOME}/bin:${env.PATH}"
+        DOCKER_IMAGE_TAG = "v${env.BUILD_ID}"
+    }
+
     stages {
-        stage ('Initialize') {
+        stage('Initialize') {
             steps {
                 script {
-                    def dockerHome = tool 'myDocker'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                    def dockerapp
+                    dockerapp = docker.build("matheusmprado/api-produto:${DOCKER_IMAGE_TAG}", '-f ./src/Dockerfile ./src')
                 }
             }
         }
 
-        stage ('Build Image') {
+        stage('Build Image') {
             steps {
                 script {
-                    dockerapp = dockerHome.build("matheusmprado/api-produto:v${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
-                }
-            }
-        }
-
-        stage ('Push Image') {
-            steps {
-                script {
-                    dockerHome.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         dockerapp.push('latest')
-                        dockerapp.push("${env.BUILD_ID}")
+                        dockerapp.push("${DOCKER_IMAGE_TAG}")
                     }
                 }
             }
