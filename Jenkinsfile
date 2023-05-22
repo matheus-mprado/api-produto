@@ -13,7 +13,7 @@ pipeline {
             def dockerHome = tool 'myDocker'
             env.PATH = "${dockerHome}/bin:${env.PATH}"
             sh(script: 'echo $PATH', returnStdout: true).trim()
-            sh(script: 'echo ${dockerHome}', returnStdout: true).trim()
+            sh(script: "echo ${dockerHome}", returnStdout: true).trim()
                     }
             }
         }
