@@ -1,17 +1,11 @@
 pipeline {
     agent any
     // tools {dockerTool  "myDocker" } 
+    environment {
+        p = sh 'echo $PATH'
+        PATH = p + ':/usr/local/bin/docker'
+    }
     stages {
-        stage ('Initialize') {
-            steps {
-                script {
-                     // Configuração do ambiente Docker
-                    def dockerHome = tool name: 'myDocker', type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
-                }
-            }
-        }
-
         stage ('Build Image') {
             steps {
                 script {
