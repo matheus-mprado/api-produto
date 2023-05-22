@@ -3,7 +3,7 @@ pipeline {
     tools {dockerTool  "myDocker" } 
     environment {
         p = sh(script: 'echo $PATH', returnStdout: true).trim()
-        PATH = "${p}:/usr/local/bin/docker"
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     }
 
     stages {
