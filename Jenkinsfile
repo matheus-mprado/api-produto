@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Initialize') {
+        stage ('Initialize') {
             def dockerHome = tool 'myDocker'
             env.PATH = "${dockerHome}/bin:${env.PATH}"
         }
-        stage('Build Image') {
+        stage ('Build Image') {
             steps {
                 script {
                     dockerapp = docker.build("matheusmprado/api-produto:v${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        stage('Push Image') {
+        stage ('Push Image') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
